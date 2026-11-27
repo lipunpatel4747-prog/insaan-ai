@@ -21,8 +21,10 @@ jobs:
           cp pubspec.yaml voice_app/pubspec.yaml
           cp lib/main.dart voice_app/lib/main.dart
           M=voice_app/android/app/src/main/AndroidManifest.xml
-          sed -i 's#<application#<uses-permission android:name="android.permission.INTERNET"/><uses-permission android:name="android.permission.RECORD_AUDIO"/><application#' $M
-          sed -i 's#</queries>#<intent><action android:name="android.speech.RecognitionService"/></intent></queries>#' $M
+          sed -i 's#<application#<uses-permission android:name="android.permission.INTERNET"/><uses-permission android:name="android.permission.RECORD_AUDIO"/><uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/><uses-permission android:name="android.permission.WAKE_LOCK"/><application#' $M
+          for f in voice_app/android/app/build.gradle voice_app/android/app/build.gradle.kts; do
+            [ -f "$f" ] && sed -i -E 's/minSdk(Version)? ?=? ?flutter\.minSdkVersion/minSdk = 24/' "$f" || true
+          done
       - name: Build
         working-directory: voice_app
         run: |
