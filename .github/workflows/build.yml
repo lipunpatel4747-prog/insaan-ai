@@ -23,7 +23,7 @@ jobs:
           M=voice_app/android/app/src/main/AndroidManifest.xml
           sed -i 's#<application#<uses-permission android:name="android.permission.INTERNET"/><uses-permission android:name="android.permission.RECORD_AUDIO"/><uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/><uses-permission android:name="android.permission.WAKE_LOCK"/><application#' $M
           for f in voice_app/android/app/build.gradle voice_app/android/app/build.gradle.kts; do
-            [ -f "$f" ] && sed -i -E 's/minSdk(Version)? ?=? ?flutter\.minSdkVersion/minSdk = 24/' "$f" || true
+            [ -f "$f" ] && sed -i -E 's/minSdk(Version)? ?=? ?flutter\.minSdkVersion/minSdk = 24/; s/compileSdk(Version)? ?=? ?flutter\.compileSdkVersion/compileSdk = 36/' "$f" || true
           done
       - name: Build
         working-directory: voice_app
